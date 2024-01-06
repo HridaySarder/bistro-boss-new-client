@@ -20,7 +20,6 @@ const AllUsers = () => {
       </div>
       <div className="overflow-x-auto">
         <table className="table">
-          
           <thead>
             <tr className="bg-[#D1A054]">
               <th></th>

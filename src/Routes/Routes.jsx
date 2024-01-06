@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
- 
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../pages/Home/Home/Home";
 import Menu from "../pages/Menu/Menu/Menu";
@@ -14,50 +11,53 @@ import Dashboard from "../Layout/Dashboard";
 import Cart from "../pages/Dashboard/Cart/Cart";
 import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
-    children:[
+    children: [
       {
-        path:'/',
-        element:<Home></Home>
+        path: "/",
+        element: <Home></Home>,
       },
       {
-        path:'menu',
-        element:<Menu></Menu>
+        path: "menu",
+        element: <Menu></Menu>,
       },
       {
-        path:'order/:category',
-        element:<Order></Order>
+        path: "order/:category",
+        element: <Order></Order>,
       },
       {
-        path:'login',
-        element:<Login></Login>
+        path: "login",
+        element: <Login></Login>,
       },
       {
-        path:'signUp',
-        element:<SignUp></SignUp>
+        path: "signUp",
+        element: <SignUp></SignUp>,
       },
       {
-        path:'secret',
-        element:<PrivateRoute><Secret></Secret></PrivateRoute>
-      }
-    ]
+        path: "secret",
+        element: (
+          <PrivateRoute>
+            <Secret></Secret>
+          </PrivateRoute>
+        ),
+      },
+    ],
   },
   {
-    path:"/dashboard",
-    element:<Dashboard></Dashboard>,
-    children:[
+    path: "/dashboard",
+    element: <Dashboard></Dashboard>,
+    children: [
       {
-        path:'cart',
-        element:<Cart></Cart>
+        path: "cart",
+        element: <PrivateRoute><Cart></Cart></PrivateRoute>,
       },
       {
-        path:'users',
-        element:<AllUsers></AllUsers>
-      }
-    ]
-  }
+        path: "users",
+        element: <AllUsers></AllUsers>,
+      },
+    ],
+  },
 ]);

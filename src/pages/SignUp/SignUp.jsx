@@ -146,7 +146,10 @@ const SignUp = () => {
             </form>
             <p className="text-center">
               <small>
-                Already have an account? <Link className="text-green-600 text-xl" to={"/login"}>Login</Link>
+                Already have an account?{" "}
+                <Link className="text-green-600 text-xl" to={"/login"}>
+                  Login
+                </Link>
               </small>
             </p>
             <SocialLogin></SocialLogin>
