@@ -2,21 +2,46 @@ import { useForm } from "react-hook-form";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaUtensils } from "react-icons/fa";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
-const image_hosting_key=import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api=`https://api.imgbb.com/1/upload?key=${image_hosting_key}`
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddItems = () => {
   const axiosPubic = useAxiosPublic();
-  const { register, handleSubmit } = useForm();
-  const onSubmit =async (data) => {
+  const axiosSecure = useAxiosSecure();
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = async (data) => {
     console.log(data);
-    const imageFile = {image: data.image[0]}
-    const res = await axiosPubic.post(image_hosting_api,imageFile,{
-      headers:{
-        "Content-Type":"multipart/form-data"
+    const imageFile = { image: data.image[0] };
+    const res = await axiosPubic.post(image_hosting_api, imageFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (res.data.success) {
+      const menuItem = {
+        name: data.name,
+        image: res.data.data.display_url,
+        category: data.category,
+        recipe: data.recipe,
+        price: parseFloat(data.price),
+      };
+      const menuRes = await axiosSecure.post("/menu", menuItem);
+      console.log(menuRes.data);
+      if (menuRes.data.insertedId) {
+        reset();
+        // success message
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${data.name} is added to the menu`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-    })
-    console.log(res.data);
+    }
+    console.log("with image url", res.data);
   };
 
   return (
